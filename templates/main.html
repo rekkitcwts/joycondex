@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- bypass flask detecting curlies as Flask instead of Vue -->
+<div id="app">
+	<h1 v-if="home">Datastruct's Reshell Dex</h1>
+	<h1 v-else-if="search">Search for Reshells</h1>
+<button @click="increment">
+    Count is: {{ '{{ count }}' }}
+  </button>
+  <button @click="toggleHomeSearch">
+  	{{ '{{ homesearch }}' }}
+  </button>
+  
+  <form @submit.prevent="addTodo">
+    <input v-model="newTodo">
+    <button>Add Todo</button>    
+  </form>
+  <ul>
+    <li v-for="todo in todos" :key="todo.id">
+     {{ '{{ todo.text }}' }}
+      <button @click="removeTodo(todo)">X</button>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block vuescripts %}
+<script>
+  const { createApp, ref } = Vue
+
+let id = 0
+
+  createApp({
+    data() {
+      return {
+        count: 0,
+        home: true,
+        search: false,
+        homesearch: "Search",
+        newTodo: '',
+      todos: [
+        { id: id++, text: 'Learn HTML' },
+        { id: id++, text: 'Learn JavaScript' },
+        { id: id++, text: 'Learn Vue' }
+      ]
+      }
+    },
+    methods: {
+    	increment() {
+    	    this.count++
+        },
+        toggleHomeSearch() {
+        	console.log(this.home);
+            console.log(this.search);
+        	if (this.home == true && this.search == false) {
+        	    this.home = false;
+                this.search = true;
+                this.homesearch = "Back";
+            }
+            else if (this.home == false && this.search == true) {
+        	    this.home = true;
+                this.search = false;
+                this.homesearch = "Search";
+            }
+        },
+        addTodo() {
+      this.todos.push({ id: id++, text: this.newTodo })
+      this.newTodo = ''
+    },
+    removeTodo(todo) {
+      this.todos = this.todos.filter((t) => t !== todo)
+    }
+    }
+  }).mount('#app')
+</script>
+{% endblock %}

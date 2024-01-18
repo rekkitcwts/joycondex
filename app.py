@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///'+db_name
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-from models import users
+from models import User
 
 if database_exists('sqlite:///instance/'+db_name):
     print(db_name + " already exists.")
@@ -27,12 +27,15 @@ else:
         finally:
         	print("db.create_all() was successfull - no exceptions were raised")
 
+def create_first_admin():
+    pass
+
 '''
 No parameters. This returns the list of controller platforms supported, e.g. switch-joycons, switch-procon, ps4, ps5, xbox, etc
 '''
 @app.route('/api/getshells/')
 def get_shells_platform():
-	return 'Show platforms here'
+    return 'Show platforms here'
 
 '''
 Homepage.

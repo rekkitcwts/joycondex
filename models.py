@@ -1,7 +1,10 @@
 from app import db
 from sqlalchemy import func, select
+from passlib.apps import custom_app_context as pwd_context
 
-class users(db.Model):
+class User(db.Model):
+    __tablename__ = 'users'
+    
     id                      = db.Column(db.Integer,     nullable=False, unique=True, primary_key=True)
     date_created            = db.Column(db.DateTime(timezone=True), default=func.now())
     date_updated            = db.Column(db.DateTime(timezone=True), default=func.now())
@@ -13,3 +16,9 @@ class users(db.Model):
     token                   = db.Column(db.String(64),  nullable=True,  unique=False)
     token_created_date_time = db.Column(db.DateTime(timezone=True), default=func.now())    
     session_id              = db.Column(db.String(30),  nullable=True,  unique=False)
+    
+    def hash_password(self, password):
+        self.password_hash = pwd_context.encrypt(password)
+        
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.password_hash)

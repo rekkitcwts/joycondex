@@ -22,3 +22,11 @@ class User(db.Model):
         
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
+        
+class Platform(db.Model):
+    __tablename__ = "platforms"
+    
+    id = db.Column(db.Integer,     nullable=False, unique=True, primary_key=True)
+    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_updated = db.Column(db.DateTime(timezone=True), default=func.now())
+    platform_name = db.Column(db.String(150), nullable=False, unique=True)

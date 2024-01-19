@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///'+db_name
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-from models import User
+from models import *
 
 if database_exists('sqlite:///instance/'+db_name):
     print(db_name + " already exists.")
